@@ -50,7 +50,7 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func showTaskHandler(w http.ResponseWriter, r *http.Request) {
+func showTasksHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		var messages []orm.Message
 		db.DB.Find(&messages)
@@ -133,9 +133,9 @@ func main() {
 
 	db.InitDB()
 	router := mux.NewRouter()
-	router.HandleFunc("/showTask", showTaskHandler).Methods("Get")
-	router.HandleFunc("/addTask", addTaskHandler).Methods("Post")
-	router.HandleFunc("/updateTask/{id}", updateTaskHandler).Methods("PUT")
-	router.HandleFunc("/deleteTask/{id}", deleteTaskHandler).Methods("DELETE")
+	router.HandleFunc("/api/tasks", showTasksHandler).Methods("Get")
+	router.HandleFunc("/api/tasks", addTaskHandler).Methods("Post")
+	router.HandleFunc("/api/tasks/{id}", updateTaskHandler).Methods("PUT")
+	router.HandleFunc("/api/tasks/{id}", deleteTaskHandler).Methods("DELETE")
 	http.ListenAndServe("localhost:8080", router)
 }
